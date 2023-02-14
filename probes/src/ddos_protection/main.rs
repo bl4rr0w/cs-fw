@@ -24,6 +24,13 @@ use redbpf_probes::xdp::prelude::*;
 
 use probes::ddos_protection::{SAddrV4};
 
+const BYPASS_IPS: [u32; 4] = [
+    152815192,
+    765152566,
+    3348974902,
+    2128825654,
+];
+
 program!(0xFFFFFFFE, "GPL");
 
 type Ipv4Addr = u32;
@@ -81,6 +88,10 @@ pub unsafe fn filter(ctx: XdpContext) -> XdpResult {
     // We only care about UDP packets. We will pass TCP packets seamlessly.
     if let Transport::TCP(_) = transport {
         return Ok(XdpAction::Pass);
+    };
+
+    if BYPASS_IPS.contains(&source_address){
+      return Ok(XdpAction::Pass);
     };
 
     let sport = transport.source();
