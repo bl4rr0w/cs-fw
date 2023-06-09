@@ -10,7 +10,7 @@ Memory: 2 GB
 
 ### Run:
 ```bash
-$ sudo ./csfw -i eth0 -p 127.0.0.1:11011
+$ sudo ./csfw -i eth0 -p 127.0.0.1:55555
 ```
 
 ### Unload
