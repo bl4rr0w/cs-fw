@@ -19,7 +19,7 @@ env:
 jobs:
   Build:
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -40,7 +40,7 @@ jobs:
 
     # If Cache was hit then maybe we have Rust 1.62 already installed.
     # We will try to load it. If it fails, we will install it in next step.
-    - name: Try to load Rust 1.62
+    - name: Try to load Rust 1.65
       if: steps.cache-cargo.outputs.cache-hit == 'true'
       run: |
         if [[ -f "$HOME/.cargo/env" ]]; then
@@ -73,7 +73,7 @@ jobs:
       uses: KyleMayes/install-llvm-action@v1.7.0
       with:
        version: "15"
-       ubuntu-version: 18.04
+       ubuntu-version: latest
        cached: ${{ steps.cache-cargo.outputs.cache-hit }}
 
       # Build Cargo-BPF from Git source
