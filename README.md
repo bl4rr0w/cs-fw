@@ -20,7 +20,7 @@ $ sudo ip link set dev eth0 xdp off
 
 # Protection Channels
 1. Allows CS 1.6 game packets only. It tracks traffic and maintains list of genuine clients only and discards all garbage packets.
-2. Drops packets from common UDP reflectors.
+2. Drops packets from common UDP reflectors. 
 ```rust
     if sport ==  17 ||    // tftp
         sport == 19 ||    // chargen
