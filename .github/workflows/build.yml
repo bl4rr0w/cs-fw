@@ -52,11 +52,11 @@ jobs:
     # but Rust 1.65+ is compiled with LLVM 15. To prevent conflict of LLVM versions,
     # we will remove Rust 1.66 (or the latest Rust) which comes packed with GitHub Actions
     # and manually install Rust 1.62.
-    - name: Remove Latest Rust and Install Rust 1.63
+    - name: Remove Latest Rust and Install Rust 1.65
       run: |
         rust_version=$(rustc --version | awk '{print $2}')
-        if [[ "rust_version" == "1.63" ]]; then
-          echo "Rust 1.63 is already installed."
+        if [[ "rust_version" == "1.65" ]]; then
+          echo "Rust 1.65 is already installed."
         else
           rustup self uninstall -y
           
