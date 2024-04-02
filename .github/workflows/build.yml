@@ -85,6 +85,9 @@ jobs:
           cargo install cargo-bpf --git https://github.com/foniod/redbpf.git
         fi
 
+    - name: Update redbpf
+      run: cargo update -p redbpf-probes
+  
     # Build CS-FW Probes and Cargo BPF
     - name: Build CS-FW Probes and Cargo BPF
       run: cd probes && cargo bpf build --target-dir=../target
