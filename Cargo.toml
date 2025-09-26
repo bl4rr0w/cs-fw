@@ -1,0 +1,39 @@
+#
+#    Copyright (C) 2023, Aayush Atharva
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+
+[workspace]
+members = ["xtask", "probes"]
+
+[package]
+name = "csfw"
+version = "1.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+aya = { version = "0.11.0", features = ["async_tokio"] }
+clap = { version = "4.4", features = ["derive"] }
+env_logger = "0.10"
+libc = "0.2.139"
+log = "0.4"
+tokio = { version = "1.25", features = ["macros", "rt", "rt-multi-thread", "net", "signal"] }
+probes = { path = "probes", features = ["userspace"] }
+
+[[bin]]
+name = "csfw"
+path = "src/main.rs"

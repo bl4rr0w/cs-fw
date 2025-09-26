@@ -1,0 +1,68 @@
+name: Build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Github Actions'
+        required: true
+        default: 'Github Actions'
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@stable
+      with:
+        components: rust-src
+        toolchain: stable
+
+    - name: Install nightly (for eBPF)
+      uses: dtolnay/rust-toolchain@nightly
+      with:
+        components: rust-src
+
+    - name: Install dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y libbpf-dev
+
+    - name: Install bpf-linker
+      run: cargo install bpf-linker
+
+    - name: Cache dependencies
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cargo/bin/
+          ~/.cargo/registry/index/
+          ~/.cargo/registry/cache/
+          ~/.cargo/git/db/
+          target/
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-cargo-
+
+    - name: Build eBPF
+      run: cargo xtask build-ebpf --release
+
+    - name: Build
+      run: cargo xtask build --release
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: csfw-binary
+        path: target/release/csfw
+        if-no-files-found: error
