@@ -17,6 +17,7 @@
 
 #![no_std]
 #![no_main]
+#![allow(static_mut_refs)]
 
 use aya_ebpf::{
     bindings::xdp_action,
